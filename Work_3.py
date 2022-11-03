@@ -108,17 +108,17 @@ from random import randint, random
 # Задание 5: Задайте число. Составьте список чисел Фибоначчи, в том числе для отрицательных индексов.
 
 
-def funFibonache(number):
-    list_fib = [-1, 0, 1]
-    result = None
+# def funFibonache(number):
+#     list_fib = [1, 0, 1]
+#     result = None
 
-    for i in range(1, number):
-        result = list_fib[i + i] + list_fib[(i + i) - 1]
-        list_fib.append(result)
-        list_fib.insert(0, result * (-1))
+#     for i in range(1, number):
+#         result = list_fib[i + i] + list_fib[(i + i) - 1]
+#         list_fib.append(result)
+#         list_fib.insert(0, list_fib[1] - list_fib[0])
 
-    print(f"Негафибоначчи: {list_fib}")
+#     print(f"Негафибоначчи: {list_fib}")
 
 
-number = int(input("Введите число: "))
-funFibonache(number)
+# number = int(input("Введите число: "))
+# funFibonache(number)
