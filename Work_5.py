@@ -236,7 +236,7 @@
 #                     res_file.write(keys[i] + str(128))
 #                 res_file.write(keys[i] + str(values[i] - (128 * numb)))
 
-#             if (values[i] == 1):
+#             elif (values[i] == 1):
 #                 if (values[i + 1] == 1):
 #                     res_file.write(keys[i])
 #                     count += 1
@@ -275,4 +275,32 @@
 #         return keys, values
 
 
+# # Восстановление данных из файла.
+# def recoveryData(file_name):
+
+#     # Читаем данные файла
+#     with open(file_name, "r", encoding="UTF-8") as file:
+#         list_data = file.read()
+    
+#     # Восстанавливаем и записываем данные в файл.
+#     with open("result_1.txt", "w", encoding="UTF-8") as res_file:
+#         for i in range(len(list_data)):
+#             if (list_data[i].isalpha()):
+#                 if (list_data[i + 1].isdigit()):
+#                     value = checkNumber(list_data[i + 1:i + 4])
+#                     res_file.write(list_data[i] * int(value))
+#                 else: res_file.write(list_data[i])
+#             else: continue
+
+
+# # Функция которая подсчитывает число повторений.
+# def checkNumber(list_ii):
+#     value = ""
+#     for i in range(len(list_ii)): 
+#         if (list_ii[i].isdigit()): value += list_ii[i]
+#         else: return value
+#     return value
+
+
 # zipFun("example.txt", "result.txt")
+# recoveryData("result.txt")

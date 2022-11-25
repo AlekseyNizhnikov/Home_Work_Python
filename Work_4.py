@@ -17,38 +17,43 @@
 #     print(f"Число Пи с заданной точностью: {result[:2 + count]}")
 
 
-# precision = float(input("Укажите количество значащих цифр после запятой: "))
+# precision = float(input("Укажите точность: "))
 # calc_Pi(precision)
 
 # Задача 2: Задайте натуральное число N. Напишите программу, которая составит
 # список простых множителей числа N.
 
-# def fun_1(number):
+# def natureNumber(number):
 #     list_number = []
+#     flag = True
 
-#     for i in range(1, number + 1):
-#         #if(number % i == 0): 
-#         if((i % 2 != 0 and i % 3 != 0) or i == 2 or i == 3):
+#     for i in range(2, number):
+#         for j in range(2, number):
+#             if (j != i):
+#                 if (i % j == 0): 
+#                     flag = False
+#                     break
+#                 else: 
+#                     flag = True
+#                     continue
+#         if (flag == True):
 #             list_number.append(i)
 
-#     print(list_number)
+#     result = list(filter(lambda x: not number % x, list_number))
+#     print(result)
 
-
-# fun_1(113)
+# number = int(input("Введите натуральное число: "))
+# natureNumber(number)
 
 
 # Задача 3: Задайте последовательность цифр. Напишите программу, которая выведет
 # список неповторяющихся элементов исходной последовательности.
 
 # def copyNumbers(str_numbers):
-#     counter = list_number = []
-
 #     list_number = list(str_numbers)
+#     result = filter(lambda i: list_number.count(i) < 2, list_number)
 
-#     for i in list_number:
-#         if(list_number.count(i) < 2): counter.append(i)
-
-#     print(f"Неповторяющиеся цифры: {counter}")
+#     print(f"Неповторяющиеся цифры: {list(result)}")
 
 
 # numbers = input("Введите последовательность чисел: ")
@@ -133,11 +138,11 @@
 #             elif(len(polynomial[i][j]) == 1): polynomial[i][j].append("⁰")
 #             elif(polynomial[i][j][1] == ''): polynomial[i][j][1] = "¹"
 
-#             qwerty = int(formatSuperscript(polynomial[i][j][1]))
-#             if (not qwerty in dict_coefficient):
-#                 dict_coefficient[qwerty] = int(polynomial[i][j][0])
+#             superscript = int(formatSuperscript(polynomial[i][j][1]))
+#             if (not superscript in dict_coefficient):
+#                 dict_coefficient[superscript] = int(polynomial[i][j][0])
 #             else:
-#                 dict_coefficient[qwerty] = dict_coefficient[qwerty] + int(polynomial[i][j][0])
+#                 dict_coefficient[superscript] = dict_coefficient[superscript] + int(polynomial[i][j][0])
 
 #     keys = sorted(dict_coefficient, reverse=True)
 #     writePolynomial(keys, dict_coefficient)
