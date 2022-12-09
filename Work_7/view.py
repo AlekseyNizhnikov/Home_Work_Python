@@ -3,7 +3,7 @@ import tkinter.filedialog as fd
 from controller import searchContact, addContact, deleteContact, readDatabase, sizeDatabase, importData, exportData, sortedData
 
 
-def main():
+def main(file_name_export, file_name_database):
 
     windows = Tk()
     windows.title("Адресная книга")
@@ -54,8 +54,9 @@ def main():
         size_list = contacts.size()
         list_i = contacts.get(first=0, last=size_list)
 
+        if(len(contacts.curselection()) == 0): return
         index_user = int(contacts.curselection()[0])
-
+        
         contacts.delete(first=contacts.curselection())
         deleteContact(list_i[index_user])
     
@@ -71,6 +72,8 @@ def main():
     
     """Обработчик события - изменение данных контакта."""
     def eventChange():
+        if(len(contacts.curselection()) == 0): return
+        
         index_contact = contacts.curselection()
         contact = contacts.get(first=index_contact)
         new_contact = contact.split()
@@ -82,13 +85,13 @@ def main():
         file_types = (("Текстовый файл", "*.txt"), ("MS Excel 2007", "*.xlsx"), ("База даных SQL", "*db"))
         file_name = fd.askopenfilename(title="Выбрать файл", initialdir="/", filetypes=file_types)
         
-        importData(file_name)
+        importData(file_name, file_name_database)
         outputContacts()
     
     """Обработчик события - экспорт данных в файл."""
     def unloadData():
         type_file = format_data.get()
-        exportData(type_file)
+        exportData(type_file, file_name_export, file_name_database)
         outputContacts()
     
     # Окно вывода адресатов.
@@ -130,8 +133,6 @@ def main():
     opt = OptionMenu(windows, format_data, *format_exit_data)
     opt.config(width=14, height=1, font=("Time New Roman", 12))
     opt.grid(row=5, column=4, padx=0, pady=0)
-    
-    # exportData(format_data.get())
 
     outputContacts()
 

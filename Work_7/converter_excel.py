@@ -1,10 +1,10 @@
 import openpyxl
 
-def writeExcel(file_name):
+def writeExcel(file_name, file_name_database):
         import_wb = openpyxl.load_workbook(file_name)
         import_sheet = import_wb['Sheet1']
 
-        wb = openpyxl.load_workbook('excel.xlsx')
+        wb = openpyxl.load_workbook(file_name_database)
         sheet = wb['Первый лист']
 
         for i in range(2, import_sheet.max_row + 1):
@@ -20,12 +20,12 @@ def writeExcel(file_name):
                     for j in range(len(import_list_names)):
                         sheet.cell(row=max_row_value + 1, column=j + 1, value=import_list_names[j])
 
-        wb.save('excel.xlsx')
+        wb.save(file_name_database)
         wb.close()
         import_wb.close()
 
-def excelFormat():
-    wb = openpyxl.load_workbook('excel.xlsx')
+def excelFormat(file_name_export, file_name_database):
+    wb = openpyxl.load_workbook(file_name_database)
     sheet = wb['Первый лист']
 
     export_wb = openpyxl.Workbook()
@@ -36,6 +36,6 @@ def excelFormat():
             cell = sheet.cell(row=i, column=j)
             export_sheet.cell(row=i, column=j, value=cell.value)
 
-    export_wb.save('result.xlsx')
+    export_wb.save(f"{file_name_export}.xlsx")
     export_wb.close()
     wb.close()

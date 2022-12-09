@@ -7,7 +7,7 @@ from converter_SQLite import writeSQL, sqlFormat
     
 """Функция выполняющая поиск совпадений по полученному слову. Возвращает список."""
 def searchContact(word):
-    wb = openpyxl.load_workbook('excel.xlsx')
+    wb = openpyxl.load_workbook('Work_7\excel.xlsx')
     sheet = wb['Первый лист']
     
     result = []
@@ -21,19 +21,19 @@ def searchContact(word):
 
 """Функция добавления нового контакта в базу данных. На выходе получаем обновленный файл .xlsx."""
 def addContact(parametrs):
-    wb = openpyxl.load_workbook('excel.xlsx')
+    wb = openpyxl.load_workbook('Work_7\excel.xlsx')
     sheet = wb['Первый лист']
     end_row = sheet.max_row + 1
 
     for i in range(len(parametrs)):
         sheet.cell(row=end_row, column=i + 1, value=parametrs[i])
     
-    wb.save('excel.xlsx')
+    wb.save('Work_7\excel.xlsx')
     wb.close()
     
 """Функция удаления контакта из базы данных. На выходе получаем обновленный файл .xlsx. На вход принимает имя контакта."""
 def deleteContact(contact):
-    wb = openpyxl.load_workbook('excel.xlsx')
+    wb = openpyxl.load_workbook('Work_7\excel.xlsx')
     sheet = wb['Первый лист']
 
     for i in range(2, sheet.max_row + 1):
@@ -45,13 +45,13 @@ def deleteContact(contact):
             sheet.delete_rows(i)
             break
         
-    wb.save('excel.xlsx')
+    wb.save('Work_7\excel.xlsx')
     wb.close()
 
 """Функция подгрузки базы контактов из файла .xlsx. На вход принимает номер строки, которую считываем."""
 def readDatabase(row):
-    if (os.path.exists("excel.xlsx")):
-        wb = openpyxl.load_workbook('excel.xlsx')
+    if (os.path.exists("Work_7\excel.xlsx")):
+        wb = openpyxl.load_workbook('Work_7\excel.xlsx')
         sheet = wb['Первый лист']
 
         list_names = [sheet.cell(row=row, column=i).value for i in range(1, sheet.max_column + 1) if sheet.cell(row=row, column=i).value]
@@ -60,8 +60,8 @@ def readDatabase(row):
                 
 """Функция возвращает количество строк в базе, либо создает файл заново."""
 def sizeDatabase():
-    if (os.path.exists("excel.xlsx")):
-        wb = openpyxl.load_workbook('excel.xlsx')
+    if (os.path.exists("Work_7\excel.xlsx")):
+        wb = openpyxl.load_workbook('Work_7\excel.xlsx')
         sheet = wb['Первый лист']
 
     else:
@@ -73,16 +73,16 @@ def sizeDatabase():
         for i in range(len(parametrs)):
             sheet.cell(row=1, column=i + 1, value=parametrs[i])
             
-        wb.save('excel.xlsx')
+        wb.save('Work_7\excel.xlsx')
 
-    wb.close()
     row = int(sheet.max_row)   
+    wb.close()
 
     return row
 
 """Функция сортировки базы. Построчно."""
 def sortedData():
-    wb = openpyxl.load_workbook('excel.xlsx')
+    wb = openpyxl.load_workbook('Work_7\excel.xlsx')
     sheet = wb['Первый лист']
 
     sort_wb = openpyxl.Workbook()
@@ -94,7 +94,7 @@ def sortedData():
     for i in range(len(parametrs)):
         sort_sheet.cell(row=1, column=i + 1, value=parametrs[i])
         
-    wb.save('excel.xlsx')
+    wb.save('Work_7\excel.xlsx')
     wb.close()
 
     
@@ -120,21 +120,21 @@ def sortedData():
         for i in range(len(min_list)):
             sort_sheet.cell(row=size_list + 1, column=i+1, value=min_list[i])
 
-        sort_wb.save("excel.xlsx")
+        sort_wb.save("Work_7\excel.xlsx")
 
 """Функция импорта данных из файлов txt, xlsx, bd."""
-def importData(file_name):
+def importData(file_name, file_name_database):
     match os.path.splitext(file_name)[1]:
         case ".xlsx": 
-            writeExcel(file_name)
+            writeExcel(file_name, file_name_database)
         case ".txt":
-            writeText(file_name)
+            writeText(file_name, file_name_database)
         case ".db": 
-            writeSQL(file_name)
+            writeSQL(file_name, file_name_database)
 
 """Функция експорта данных в файлы txt, xlsx, bd"""
-def exportData(format):
+def exportData(format, file_name_export, file_name_database):
     match format:
-        case "txt": textFormat()
-        case "xlsx": excelFormat()
-        case "db": sqlFormat()
+        case "txt": textFormat(file_name_export, file_name_database)
+        case "xlsx": excelFormat(file_name_export, file_name_database)
+        case "db": sqlFormat(file_name_export, file_name_database)
