@@ -11,14 +11,48 @@ def handlerEnter(number, text, user_name="Admin"):
     else:
         return number
 
+"""Обработчик строки. Ищем операторы и выполняем необходимые действия. Возвращаем список или строку."""
+def handlerOperate(new_text, operate):
+    while True:
+        if(new_text.count(operate) >= 1):
+            i = new_text.index(operate)
+            try:
+                match operate:
+                    case "-": 
+                        new_text[i] = float(new_text[i + 1]) * -1.0
+                        new_text.pop(i + 1)
+
+                    case "*": 
+                        new_text[i] = float(new_text[i - 1]) * float(new_text[i + 1])
+                        new_text.pop(i - 1)
+                        new_text.pop(i)
+
+                    case "/":
+                        try:
+                            new_text[i] = float(new_text[i - 1]) / float(new_text[i + 1])
+                            new_text.pop(i - 1)
+                            new_text.pop(i)
+
+                        except ZeroDivisionError:
+                            return "Деление на 0!"
+
+                    case "+":
+                        new_text[i] = float(new_text[i - 1]) + float(new_text[i + 1])
+                        new_text.pop(i - 1)
+                        new_text.pop(i)
+
+            except ValueError:
+                return "Некорректный ввод!"
+            
+        else: break
+    return new_text
+
 """Функция производит проверку корректности ввода и выполняет вычисление."""
 def calculation(text, user_name):
-    result = 0.0
 
-    list_operate = ["+", "-", "*", "/"]
+    list_operate = ["*", "/", "+", "-"]
     for oper in list_operate:
         text = text.replace(oper, f" {oper} ")
-
     new_text = text.split()
 
     if(not new_text): return "0.0"
@@ -27,30 +61,21 @@ def calculation(text, user_name):
         text_error = "Некорректный ввод!"
         log_error(user_name,  text, text_error)
         return "Некорректный ввод!"
-        
-    elif(new_text[0] == "-"):
-        new_text[1] = float(new_text[1]) * (-1.0)
-        new_text.pop(0)
 
-    for i in range(len(new_text) - 1):
-        try:
-            match new_text[i]:
-                case "+": result += float(new_text[i - 1]) + float(new_text[i + 1])
-                case "-": result += float(new_text[i - 1]) - float(new_text[i + 1])
-                case "*": result += float(new_text[i - 1]) * float(new_text[i + 1])
-                case "/": 
-                    try:
-                        result += float(new_text[i - 1]) / float(new_text[i + 1])
-                    except ZeroDivisionError:
-                        text_error = "Деление на 0!"
-                        log_error(user_name,  text, text_error)
-                        return text_error
-        except ValueError:
-            text_error = "Некорректный ввод!"
-            log_error(user_name,  text, text_error)
-            return "Некорректный ввод"
+    new_text = handlerOperate(new_text, "-")
+    new_text = handlerOperate(new_text, "*")
+    new_text = handlerOperate(new_text, "/")
+    new_text = handlerOperate(new_text, "+")
 
-    return round(result, 6)
+
+    if(len(new_text) > 1):
+        new_text[0] = sum(new_text)
+
+    try:
+        return round(new_text[0], 6)
+    except TypeError:
+        log(user_name, text, new_text)
+        return new_text
 
 """Выбираем интерфейс работы программы и подтягиваем нужный."""
 def init_cntr(interface):

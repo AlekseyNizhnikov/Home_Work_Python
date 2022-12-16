@@ -63,7 +63,6 @@ def creatWinEntry(windows):
 def controllerGUI(windows, font_text):
     win_entry = creatWinEntry(windows)
     creatButton(windows, font_text, win_entry)
-    print(type(win_entry))
 
 """Инициализация настроек и создание рабочего окна программы."""
 def init_tk():
